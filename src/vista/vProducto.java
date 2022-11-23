@@ -14,7 +14,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import Modelo.Producto;
 import Modelo.Usuario;
+import dao.daoProducto;
 import dao.douUsuario;
 
 import java.awt.event.ActionListener;
@@ -23,19 +25,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class vUsuario extends JFrame {
-	douUsuario dou=new douUsuario();
+public class vProducto extends JFrame {
+	daoProducto dou=new daoProducto();
 	int fila= -1;
 	DefaultTableModel modelo=new DefaultTableModel();
-	ArrayList<Usuario>lista=new ArrayList<Usuario>();
-	private JTable tblUsuario;
-	Usuario usuario=new Usuario();
+	ArrayList<Producto>lista=new ArrayList<Producto>();
+	Producto producto=new Producto();
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					vUsuario frame = new vUsuario();
+					vProducto frame = new vProducto();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +48,7 @@ public class vUsuario extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public vUsuario() {
+	public vProducto() {
 		setTitle("CRUD USUARIO");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 531, 499);
@@ -58,49 +59,50 @@ public class vUsuario extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("ID");
-		lblNewLabel.setBounds(10, 32, 46, 14);
+		lblNewLabel.setBounds(10, 11, 46, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblID = new JLabel("1");
-		lblID.setBounds(127, 32, 46, 14);
+		lblID.setBounds(120, 11, 46, 14);
 		contentPane.add(lblID);
 		
-		JLabel lblNewLabel_1 = new JLabel("USUARIO");
-		lblNewLabel_1.setBounds(10, 60, 67, 14);
+		JLabel lblNewLabel_1 = new JLabel("DESCRIPCION");
+		lblNewLabel_1.setBounds(10, 39, 79, 14);
 		contentPane.add(lblNewLabel_1);
 		
-		JTextField txtUser = new JTextField();
-		txtUser.setBounds(120, 57, 86, 20);
-		contentPane.add(txtUser);
-		txtUser.setColumns(10); 
+		JTextField txtDescripcion = new JTextField();
+		txtDescripcion.setBounds(120, 36, 86, 20);
+		contentPane.add(txtDescripcion);
+		txtDescripcion.setColumns(10); 
 		
-		JLabel lblNewLabel_1_1 = new JLabel("PASSWORD");
-		lblNewLabel_1_1.setBounds(10, 99, 79, 14);
-		contentPane.add(lblNewLabel_1_1);
+		JLabel lblPrecio = new JLabel("PRECIO ");
+		lblPrecio.setBounds(10, 70, 79, 14);
+		contentPane.add(lblPrecio);
 		
-		JTextField txtPassword = new JTextField();
-		txtPassword.setColumns(10);
-		txtPassword.setBounds(120, 96, 86, 20);
-		contentPane.add(txtPassword);
+		JTextField txtPrecio = new JTextField();
+		txtPrecio.setBounds(120, 67, 86, 20);
+		txtPrecio.setColumns(10);
+		contentPane.add(txtPrecio);
 		
-		JTextField txtNombre = new JTextField();
-		txtNombre.setColumns(10);
-		txtNombre.setBounds(120, 139, 86, 20);
-		contentPane.add(txtNombre);
+		JTextField txtCantidad = new JTextField();
+		txtCantidad.setBounds(120, 98, 86, 20);
+		txtCantidad.setColumns(10);
+		contentPane.add(txtCantidad);
 		
-		JLabel lblNewLabel_1_1_1 = new JLabel("NOMBRE");
-		lblNewLabel_1_1_1.setBounds(10, 142, 67, 14);
-		contentPane.add(lblNewLabel_1_1_1);
+		JLabel lblCantidad = new JLabel("CANTIDAD");
+		lblCantidad.setBounds(10, 101, 67, 14);
+		contentPane.add(lblCantidad);
 		
 		JButton btnAgregar = new JButton("AGREGAR");
+		btnAgregar.setBounds(0, 188, 89, 23);
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Usuario user=new Usuario();
-					user.setUser(txtUser.getText());
-					user.setPassword(txtPassword.getText());
-					user.setNombre(txtNombre.getText());
-					if(dou.insertarUsuario(user)) {
+					Producto producto=new Producto();
+					producto.setDescripcion(txtDescripcion.getText());
+					producto.setPrecio(txtPrecio.getText());
+					producto.setCantidad(txtCantidad.getText());
+					if(dou.insertarProducto(producto)) {
 						actualizarTabla();
 						JOptionPane.showMessageDialog(null, "SE AGREGO CORRERTAMENTE");
 					}else {
@@ -111,22 +113,22 @@ public class vUsuario extends JFrame {
 				}
 			}
 		});
-		btnAgregar.setBounds(0, 188, 89, 23);
 		contentPane.add(btnAgregar);
 		
 		JButton btnEditar = new JButton("EDITAR");
+		btnEditar.setBounds(110, 188, 89, 23);
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(txtUser.getText().equals("")||txtPassword.getText().equals("")||txtNombre.getText().equals("")) {
+					if(txtDescripcion.getText().equals("")||txtPrecio.getText().equals("")||txtCantidad.getText().equals("")) {
 						JOptionPane.showMessageDialog(null,"campos vacios");
 						return;
 					}
 		
-					usuario.setUser(txtUser.getText());
-					usuario.setPassword(txtPassword.getText());
-					usuario.setNombre(txtNombre.getText());
-					if(dou.editarUsuario(usuario)) {
+					producto.setDescripcion(txtDescripcion.getText());
+					producto.setPrecio(txtPrecio.getText());
+					producto.setCantidad(txtCantidad.getText());
+					if(dao.editarProducto(producto)) {
 						actualizarTabla();
 						JOptionPane.showMessageDialog(null, "SE EDITO CORRERTAMENTE");
 					}else {
@@ -139,10 +141,10 @@ public class vUsuario extends JFrame {
 				
 			}
 		});
-		btnEditar.setBounds(110, 188, 89, 23);
 		contentPane.add(btnEditar);
 		
 		JButton btnEliminar = new JButton("ELIMINAR");
+		btnEliminar.setBounds(213, 188, 89, 23);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -150,7 +152,7 @@ public class vUsuario extends JFrame {
 					if(opcion ==0) {
 						
 					}
-				if(dou.eliminarUsuario(lista.get(fila).getId())) {
+				if(dao.eliminarProducto(lista.get(fila).getId())) {
 					actualizarTabla();
 					JOptionPane.showMessageDialog(null, "ELIMNAR CORRECTAMENTE!!");
 				}else {
@@ -161,59 +163,58 @@ public class vUsuario extends JFrame {
 			}
 			}
 		});
-		btnEliminar.setBounds(213, 188, 89, 23);
 		contentPane.add(btnEliminar);
 		
 		JButton btnBorrar = new JButton("BORRAR");
 		btnBorrar.setBounds(335, 188, 89, 23);
 		contentPane.add(btnBorrar);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(53, 222, 383, 227);
-		contentPane.add(scrollPane);
-		
-		tblUsuario = new JTable();
-		tblUsuario.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				fila=tblUsuario.getSelectedRow();
-				usuario=lista.get(fila);
-				lblID.setText(""+usuario.getId());
-				txtUser.setText(usuario.getUser());
-				txtPassword.setText(usuario.getPassword());
-				txtNombre.setText(usuario.getNombre());
-			}
-		});
-		tblUsuario.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-			}
-		));
-		scrollPane.setViewportView(tblUsuario);
 
+	JLabel lblProvedor = new JLabel("PROVEDOR");
+	lblProvedor.setBounds(10, 126, 67, 14);
+	contentPane.add(lblProvedor);
+	
+	JTextField txtProvedor = new JTextField();
+	txtProvedor.setBounds(120, 123, 86, 20);
+	contentPane.add(txtProvedor);
+	txtProvedor.setColumns(10);
+	
+	JPanel panel = new JPanel();
+	panel.setBounds(10, 222, 414, 227);
+	contentPane.add(panel);
+	panel.setLayout(null);
+	
+	JTable tblProducto = new JTable();
+	tblProducto.setModel(new DefaultTableModel(
+		new Object[][] {
+		},
+		new String[] {
+		}
+	));
 	modelo.addColumn("ID");
-	modelo.addColumn("USER");
-	modelo.addColumn("PASSWORD");
-	modelo.addColumn("NOMBRE");
-	tblUsuario.setModel(modelo);
+	modelo.addColumn("DESCRIPCION");
+	modelo.addColumn("PRECIO");
+	modelo.addColumn("CANTIDAD");
+	modelo.addColumn("PROVEDOR");
+	tblProducto.setModel(modelo);
+	tblProducto.setBounds(0, 0, 414, 227);
+	panel.add(tblProducto);
 	actualizarTabla();
+	
 	}
 	public void actualizarTabla () {
 		while(modelo.getRowCount()>0) {
 			modelo.removeRow(0);
 		}
-		lista=dou.fetchUsusarios();
-		for(Usuario u: lista) {
+		lista=dao.fetchProductos();
+		for(Producto u: lista) {
 			Object o[]=new Object[4];
 			o[0]=u.getId();
-			o[1]=u.getUser();
-			o[2]=u.getPassword();
-			o[3]=u.getNombre();
+			o[1]=u.getDescripcion();
+			o[2]=u.getPrecio();
+			o[3]=u.getCantidad();
+			o[4]=u.getProvedor();
 			modelo.addRow(o);
 		}
-		tblUsuario.setModel(modelo);
 	}
-	
 	}
 

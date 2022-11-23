@@ -120,9 +120,9 @@ public class vLogin extends JFrame {
 		btnCancelar.setBounds(252, 227, 89, 23);
 		contentPane.add(btnCancelar);
 		
-		JLabel lblNewLabel_2 = new JLabel("New label");
-		lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\sjsan\\Downloads\\OIP.jpg"));
-		lblNewLabel_2.setBounds(165, 0, 254, 204);
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\ALUMNO\\Downloads\\images (2).jpg"));
+		lblNewLabel_2.setBounds(165, 0, 225, 204);
 		contentPane.add(lblNewLabel_2);
 	}
 
